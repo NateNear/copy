@@ -1,0 +1,1 @@
+"use strict";exports.id=426,exports.ids=[426],exports.modules={8426:(s,e,o)=>{o.d(e,{Z:()=>d});var r=o(997);o(6689);let t={logo:r.jsx("span",{children:"My Project"})},d=t}};
