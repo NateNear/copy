@@ -1,0 +1,27 @@
+# salient
+
+salient
+```jsx copy
+clear all
+clc
+j=sqrt(-1);
+vt=34.64*(10^3);
+p=48*(10^6);
+pf=0.8;
+xd=13.5;
+xq=9.33;
+vtph=vt/(sqrt(3));
+phi=acos(pf);
+q=p*tan(phi);
+i=(p-j*q)/(3*vtph);
+e=vtph+ (j*i*xq);
+id=(abs(i)+sin(angle(e)-angle(i)));
+ef=abs(e)+((xd-xq)*id)
+delta=0:1:180;
+del=(delta*3.142)/180;
+p1=(vtph*ef*sin(del))/xd;
+p2=((vtph^2)*(xd-xq)*sin(2*del))/(2*xd*xq);
+p3=p1+p2
+reg=((ef-vtph)/vtph)*100
+plot(delta,p3,delta,p1,delta,p2)
+```

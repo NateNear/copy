@@ -1,0 +1,43 @@
+# with coupling
+
+with-coupling
+
+
+```jsx copy
+clear all
+clc
+zd=[1 2 0 0.6;1 3 0 0.5;3 4 0 0.5;1 2 0 0.4;2 4 0 0.2];
+zm=[1 2 0 0.1;1 4 0 0.2];
+n=4;
+e=5;
+nm=2;
+sn=zd(:,1);
+en=zd(:,2);
+r=zd(:,3);
+x=zd(:,4);
+z=r+(j*x);
+sm=zm(:,1);
+em=zm(:,2);
+rm=zm(:,3);
+xm=zm(:,4);
+zm=rm+(j*xm);
+a=zeros(e,n);
+for i=1:e
+    a(i,sn(i))=1;
+    a(i,en(i))=-1;
+end
+a(:,1)=[];
+
+zpri=zeros(e,e);
+for k=1:e
+    zpri(k,k)=z(k);
+end
+
+for l=1:nm
+    zpri(sm(l),em(l))=zm(l);
+    zpri(em(l),sm(l))=zm(l);
+end
+ypri=inv(zpri);
+ybus=a' * ypri * a;
+disp(ybus)
+```

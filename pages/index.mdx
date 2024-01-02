@@ -1,0 +1,58 @@
+# Jacobian Matrix
+ Jacobian Matrix 
+```js copy
+
+    clc
+nbus=3; sb=1;
+v=[1.0 1.0 1.0];delta=[0 0 0]
+yb=[65-j*45 -40+j*20 -25+j*25
+    -40+j*20 60-j*60 -20+j*40
+    -25+j*25 -20+j*40 45-j*65]
+ym=sqrt(real(yb).^2+imag(yb).^2)
+angle=atan2(imag(yb),real(yb))
+clear J
+% computation of diagonal elements of J1 to J4
+for i=1:nbus
+J1(i,i)=0.0;J3(i,i)=0.0;J22=0;J44=0;
+for j=1:nbus
+if j~=i
+            J1(i,i)=J1(i,i)+v(i)*v(j)*ym(i,j)*sin(angle(i,j)-delta(i)+delta(j));
+            J3(i,i)=J3(i,i)+v(i)*v(j)*ym(i,j)*cos(angle(i,j)-delta(i)+delta(j));
+            J22=J22+v(j)*ym(i,j)*cos(angle(i,j)-delta(i)+delta(j));
+             J44=J44+v(j)*ym(i,j)*sin(angle(i,j)-delta(i)+delta(j));            
+end
+end
+if i~=sb
+J1(i,i)=J1(i,i);
+J3(i,i)=J3(i,i);
+          J2(i,i)=2*v(i)*ym(i,i)*cos(angle(i,i))+J22;
+J4(i,i)=-2*v(i)*ym(i,i)*sin(angle(i,i))-J44;
+end
+end
+% computation of OFF diagonal elements of J1 to J4
+for i=1:nbus
+for j=1:nbus
+if (j~=i) & (i~=sb) & (j~=sb)
+            J1(i,j)=-v(i)*v(j)*ym(i,j)*sin(angle(i,j)-delta(i)+delta(j));
+            J2(i,j)=v(i)*ym(i,j)*cos(angle(i,j)-delta(i)+delta(j));
+            J3(i,j)=-v(i)*v(j)*ym(i,j)*cos(angle(i,j)-delta(i)+delta(j));
+            J4(i,j)=-v(i)*ym(i,j)*sin(angle(i,j)-delta(i)+delta(j));
+end
+end
+end
+%arrangement of jacobian matrix
+for i=1:nbus
+for j=1:nbus
+if i~=sb& j~=sb
+J(i-1,j-1)=J1(i,j);
+J(i-1,j+nbus-2)=J2(i,j);
+J(i+nbus-2,j-1)=J3(i,j);
+J(i+nbus-2,j+nbus-2)=J4(i,j);
+end
+end
+end
+J
+
+
+
+```

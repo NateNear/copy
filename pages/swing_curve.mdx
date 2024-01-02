@@ -1,0 +1,52 @@
+# swing curve
+
+sing-curve
+
+```jsx copy
+clear all
+clc
+h=2.52;
+xpre=0.45;
+xpost=0.55;
+xfault=1.25;
+e=1.1;
+v=1.0;
+mva=20;
+mw=18;
+delta=21.64;
+tc=0.125;
+tfinal=0.5;
+m=h/(180*50);
+pm=mw/mva;
+ppre=e*v/xpre;
+pfault=e*v/xfault;
+ppost=e*v/xpost;
+ddelta=0;
+pi=3.142;
+tstep=0.005;
+t=0;
+tf=0;
+i=2;
+time(1)=0;
+ang(1)=delta;
+while (t<tfinal)
+    if(t==tf)
+        paa=pm-ppre*sin(delta*pi/180);
+        pab=pm-pfault*sin(delta*pi/180);
+        pa=(paa+pab)/2;
+    end
+    if(t>tf & t<tc)
+        pa=pm-pfault*sin(delta*pi/180);
+    end
+    if(t>tc)
+        pa=pm-ppost*sin(delta*pi/180);
+    end
+    ddelta=ddelta+(tstep*tstep*pa/m);
+    delta=delta+ddelta;
+    t=t+tstep;
+    time(i)=t;
+    ang(i)=delta;
+    i=i+1;
+end
+plot(time,ang)
+```

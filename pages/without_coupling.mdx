@@ -1,0 +1,37 @@
+# without coupling
+
+without-coupling
+```jsx copy
+clear all
+clc
+j=sqrt(-1);
+zd=[1 2 0 0.2 0 -6.66; 1 3 0 0.15 0 0;1 4 0 0.1 0 0;2 3 0 0.1 0 0;2 4 0 0.15 0 0];
+n=4;
+l=5;
+e=n+l;
+sn=zd(:,1);
+en=zd(:,2);
+r=zd(:,3);
+x=zd(:,4);
+gsh=zd(:,5);
+bsh=zd(:,6);
+ysh=gsh+(j*bsh);
+z=r+(j*x);
+y=1./z;
+A=zeros(e,n);
+for i=1:n
+    A(i,i)=1;
+end
+for i=1:l
+    A(n+i,sn(i))= 1;
+    A(n+i,en(i))= -1;
+end
+ypri=zeros(e,e);
+for i=1:l
+    ypri(n+i,n+i)=y(i);
+    ypri(sn(i),sn(i))=ypri(sn(i),sn(i))+ysh(i);
+    ypri(en(i),en(i))=ypri(sn(i),sn(i))+ysh(i);
+end
+ybus=A'*ypri*A;
+disp(ybus)
+```
